@@ -19,15 +19,14 @@ class HTTPUtilsTest {
 
     @Test // ONLY works when time is set to "now (for test)". Set time back to "time" variable otherwise!
     void addTodoItem() throws IOException {
-        var resultingID = httpUtils.addTodoItem("Team 3 Test", "team3");
+        var string = httpUtils.addTodoItem("Team 3 Test", "team3","4/20");
         var expected = "{\n" +
                 "  \"title\": \"Team 3 Test\",\n" +
+                "  \"deadline\": \"4/20\",\n" +
                 "  \"owner\": \"team3\",\n" +
                 "  \"time created\": \"now (for test)\",\n" +
-                "  \"id\": " + resultingID + "\n" +
+                "  \"id\": " + 99 + "\n" +
                 "}";
-        var actual = httpUtils.getTodoItemJsonString(resultingID);
-        assertEquals(expected, actual);
+        assertEquals(expected, string);
     }
-
 }

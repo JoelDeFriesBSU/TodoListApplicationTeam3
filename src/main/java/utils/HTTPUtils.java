@@ -34,17 +34,17 @@ public class HTTPUtils {
      * @return the ID of the recently added todoItem
      * @throws IOException
      */
-    public int addTodoItem(String note, String owner) throws IOException {
+    public String addTodoItem(String note, String owner,String deadline) throws IOException {
         Map<String,Object> data = new LinkedHashMap<>();
         data.put("title",note);
+        data.put("deadline",deadline);
         data.put("owner",owner);
         String time = (java.util.Calendar.getInstance().getTime()).toString();
         data.put("time created",time);
         HttpContent content = new UrlEncodedContent(data);
         HttpRequest postRequest = requestFactory.buildPostRequest(new GenericUrl(todosURL),content);
         String rawResponse = postRequest.execute().parseAsString();
-        int resultingId = Integer.parseInt(postRequest.execute().parseAsString().replaceAll("[^\\d]",""));
-        return resultingId;
+        return rawResponse;
     }
 
 }
