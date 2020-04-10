@@ -27,10 +27,11 @@ public class JsonOperator {
 
     public static TodoItem convertJsonObjectToTodoItem(JsonObject jsonObject){
         var owner = jsonObject.getAsJsonPrimitive("owner").getAsString();
+        var deadline = jsonObject.getAsJsonPrimitive("deadline").getAsString();
         var todo = jsonObject.getAsJsonPrimitive("title").getAsString();
         int id = jsonObject.getAsJsonPrimitive("id").getAsInt();
         var time = jsonObject.getAsJsonPrimitive("time created").getAsString();
-        TodoItem todoItem = new TodoItem(owner, todo, id, time);
+        TodoItem todoItem = new TodoItem(owner, deadline, todo, id, time);
         return todoItem;
     }
 
