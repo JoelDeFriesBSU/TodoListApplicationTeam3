@@ -29,6 +29,20 @@ class HTTPUtilsTest {
         assertEquals(expected, string);
     }
 
+    @Test
+    void deleteTodoItemByTitleTest() throws IOException {
+        httpUtils.addTodoItem("Delete Item Test.", "team3", "4/21");
+        assertTrue(httpUtils.deleteTodoItemByTitle("Delete Item Test.", "team3"));
+    }
+
+    @Test
+    void getTodoItemByTitleTest() throws IOException {
+        httpUtils.addTodoItem("Get Item by Title Test", "team3", "4/21");
+        String expectedTitle = httpUtils.getTodoItemByTitle("Get Item by Title Test", "team3").getTitle();
+        assertEquals("Get Item by Title Test", expectedTitle);
+        httpUtils.deleteTodoItemByTitle("Get Item by Title Test", "team3");
+    }
+
     //Am terrible at figuring out tests.
     /*
     @Test
@@ -61,4 +75,6 @@ class HTTPUtilsTest {
         assertEquals(expected, getItems);
     }
      */
+
+
 }

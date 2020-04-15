@@ -59,48 +59,44 @@ public class HTTPUtils {
         return arrayList;
     }
 
-    //Temporarily added the last return statement to return the first item in the list if no item is found, need workaround.
+    //Last return statement should never be accessed, but the IDEA complained without it.
     public TodoItem getTodoItemByTitle(String title, String owner) throws IOException {
         List<TodoItem> todoItemList = getAllTodoItemsByOwner(owner);
         try {
             for (int i = 0; i < todoItemList.size(); i++) {
                 TodoItem item = todoItemList.get(i);
-                if (item.getTitle() == title) {
+                if (item.getTitle().equals(title)) {
                     return item;
                 } else{
-                    throw new ItemNotFoundException();
+
                 }
             }
+            throw new ItemNotFoundException();
         } catch (ItemNotFoundException i){
             i.printStackTrace();
         }
-        return todoItemList.get(0);
+        String time = (java.util.Calendar.getInstance().getTime()).toString();
+        return new TodoItem("dev", "0", "Item not Found", time);
     }
 
-    /**
-     * Only updates local storage, still needs to be able to access internet
-     * @param deleted variable is useful, but not sure how to implement right now, if at all.
-     */
+
     public boolean deleteTodoItemByTitle(String titleOfItemToDelete, String owner) throws IOException {
         List<TodoItem> todoItemList = getAllTodoItemsByOwner(owner);
-        boolean deleted = false;
         try {
             for (int i = 0; i < todoItemList.size(); i++) {
                 TodoItem item = todoItemList.get(i);
-                if (item.getTitle() == titleOfItemToDelete) {
+                if (item.getTitle().equals(titleOfItemToDelete)) {
                     int id = item.getId();
                     HttpRequest deleteRequest = requestFactory.buildDeleteRequest(
                             new GenericUrl(baseURL + "todos/" + id));
                     String rawResponse = deleteRequest.execute().parseAsString();
-                    deleted = true;
-                } else{
-                    throw new ItemNotFoundException();
+                    return true;
                 }
             }
+            throw new ItemNotFoundException();
         } catch (ItemNotFoundException i){
-            deleted = false;
+            return false;
         }
-        return deleted;
     }
 
 }
