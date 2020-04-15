@@ -4,19 +4,22 @@ public class TodoItem {
 
 
     String owner;
+    String deadline;
     String todo;
     int id;
     String time;
 
-    public TodoItem(String owner, String todo, int id, String time) {
+    public TodoItem(String owner, String deadline, String todo, int id, String time) {
         this.owner = owner;
+        this.deadline = deadline;
         this.todo = todo;
         this.id = id;
         this.time = time;
     }
 
-    public TodoItem(String owner, String todo, String time) {
+    public TodoItem(String owner, String deadline, String todo, String time) {
         this.owner = owner;
+        this.deadline = deadline;
         this.todo = todo;
         this.time = time;
     }
@@ -35,5 +38,9 @@ public class TodoItem {
 
     public int getId() {
         return id;
+    }
+
+    public String getDeadline() {
+        return deadline;
     }
 }
