@@ -5,6 +5,7 @@ public class TodoItem {
 
     String owner;
     String deadline;
+    String completed;
     String title;
     int id;
     String time;
@@ -43,4 +44,13 @@ public class TodoItem {
     public String getDeadline() {
         return deadline;
     }
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
+    }
+
 }
