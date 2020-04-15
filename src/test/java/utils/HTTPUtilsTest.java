@@ -2,6 +2,7 @@ package utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.HTTPUtils;
 
 import java.io.IOException;
 
@@ -27,6 +28,20 @@ class HTTPUtilsTest {
                 "  \"id\": 7\n" +
                 "}";
         assertEquals(expected, string);
+    }
+
+    @Test
+    void deleteTodoItemByTitleTest() throws IOException {
+        httpUtils.addTodoItem("Delete Item Test.", "team3", "4/21");
+        assertTrue(httpUtils.deleteTodoItemByTitle("Delete Item Test.", "team3"));
+    }
+
+    @Test
+    void getTodoItemByTitleTest() throws IOException {
+        httpUtils.addTodoItem("Get Item by Title Test", "team3", "4/21");
+        String expectedTitle = httpUtils.getTodoItemByTitle("Get Item by Title Test", "team3").getTitle();
+        assertEquals("Get Item by Title Test", expectedTitle);
+        httpUtils.deleteTodoItemByTitle("Get Item by Title Test", "team3");
     }
 
     //Am terrible at figuring out tests.
@@ -61,4 +76,6 @@ class HTTPUtilsTest {
         assertEquals(expected, getItems);
     }
      */
+
+
 }

@@ -33,13 +33,13 @@ public class HTTPUtils {
     }
 
     /**
-     * @param note  whatever should be in the todoItem
+     * @param title  whatever should be in the todoItem
      * @param owner whoever is the owner of the todoItem
      * @throws IOException
      */
-    public String addTodoItem(String note, String owner,String deadline) throws IOException {
+    public String addTodoItem(String title, String owner,String deadline) throws IOException {
         Map<String,Object> data = new LinkedHashMap<>();
-        data.put("title",note);
+        data.put("title",title);
         data.put("deadline",deadline);
         data.put("owner",owner);
         String time = (java.util.Calendar.getInstance().getTime()).toString();
@@ -52,52 +52,51 @@ public class HTTPUtils {
 
     public static List<TodoItem> getAllTodoItemsByOwner(String owner) throws IOException {
         HttpRequestFactory requestFactory2 = new NetHttpTransport().createRequestFactory();
-        HttpRequest getRequest = requestFactory2.buildGetRequest(new GenericUrl("https://todoserver222.herokuapp.com/" + owner + "todos/"));
+        HttpRequest getRequest = requestFactory2.buildGetRequest(new GenericUrl("https://todoserver222.herokuapp.com/" + owner + "/todos/"));
         String rawResponse = getRequest.execute().parseAsString();
         JsonArray jsonArray = JsonOperator.stringToJsonArray(rawResponse);
         List<TodoItem> arrayList= JsonOperator.JsonArrayToTodoItemArrayList(jsonArray);
         return arrayList;
     }
 
-    //Temporarily added the last return statement to return the first item in the list if no item is found, need workaround.
+    //Last return statement should never be accessed, but the IDEA complained without it.
     public TodoItem getTodoItemByTitle(String title, String owner) throws IOException {
         List<TodoItem> todoItemList = getAllTodoItemsByOwner(owner);
         try {
             for (int i = 0; i < todoItemList.size(); i++) {
                 TodoItem item = todoItemList.get(i);
-                if (item.getTodo() == title) {
+                if (item.getTitle().equals(title)) {
                     return item;
                 } else{
-                    throw new ItemNotFoundException();
+
                 }
             }
+            throw new ItemNotFoundException();
         } catch (ItemNotFoundException i){
             i.printStackTrace();
         }
-        return todoItemList.get(0);
+        String time = (java.util.Calendar.getInstance().getTime()).toString();
+        return new TodoItem("dev", "0", "Item not Found", time);
     }
 
-    /**
-     * Only updates local storage, still needs to be able to access internet
-     * @param deleted variable is useful, but not sure how to implement right now, if at all.
-     */
-    public List<TodoItem> deleteTodoItemByTitle(String title, String owner) throws IOException {
+
+    public boolean deleteTodoItemByTitle(String titleOfItemToDelete, String owner) throws IOException {
         List<TodoItem> todoItemList = getAllTodoItemsByOwner(owner);
-        boolean deleted = false;
         try {
             for (int i = 0; i < todoItemList.size(); i++) {
                 TodoItem item = todoItemList.get(i);
-                if (item.getTodo() == title) {
-                    todoItemList.remove(i);
-                    deleted = true;
-                } else{
-                    throw new ItemNotFoundException();
+                if (item.getTitle().equals(titleOfItemToDelete)) {
+                    int id = item.getId();
+                    HttpRequest deleteRequest = requestFactory.buildDeleteRequest(
+                            new GenericUrl(baseURL + "todos/" + id));
+                    String rawResponse = deleteRequest.execute().parseAsString();
+                    return true;
                 }
             }
+            throw new ItemNotFoundException();
         } catch (ItemNotFoundException i){
-            deleted = false;
+            return false;
         }
-        return todoItemList;
     }
 
 }
