@@ -40,7 +40,7 @@ public class LocalSave {
                 HttpUtils.addTodoItem(title,owner,deadline);
             }
         }catch(IOException e){
-            
+
         }
     }
 }
