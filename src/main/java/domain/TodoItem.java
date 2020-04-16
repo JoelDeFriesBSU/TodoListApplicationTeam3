@@ -10,17 +10,19 @@ public class TodoItem {
     int id;
     String time;
 
-    public TodoItem(String owner, String deadline, String title, int id, String time) {
+    public TodoItem(String owner, String deadline, String completed, String title, int id, String time) {
         this.owner = owner;
         this.deadline = deadline;
+        this.completed = completed;
         this.title = title;
         this.id = id;
         this.time = time;
     }
 
-    public TodoItem(String owner, String deadline, String title, String time) {
+    public TodoItem(String owner, String deadline, String completed, String title, String time) {
         this.owner = owner;
         this.deadline = deadline;
+        this.completed = completed;
         this.title = title;
         this.time = time;
     }
@@ -53,4 +55,9 @@ public class TodoItem {
         this.completed = completed;
     }
 
+    @Override
+    public String toString() {
+        return owner + "\n" + deadline + "\n" + completed
+                + "\n" + title + "\n" + id + "\n" + time;
+    }
 }

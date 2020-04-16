@@ -76,7 +76,7 @@ public class HTTPUtils {
             i.printStackTrace();
         }
         String time = (java.util.Calendar.getInstance().getTime()).toString();
-        return new TodoItem("dev", "0", "Item not Found", time);
+        return new TodoItem("dev", "0","0", "Item not Found", time);
     }
 
 
