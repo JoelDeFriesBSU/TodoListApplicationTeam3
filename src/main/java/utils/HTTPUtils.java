@@ -47,6 +47,9 @@ public class HTTPUtils {
         HttpContent content = new UrlEncodedContent(data);
         HttpRequest postRequest = requestFactory.buildPostRequest(new GenericUrl(todosURL),content);
         String rawResponse = postRequest.execute().parseAsString();
+        LocalSave ls = new LocalSave();
+        ls.addTodoItemToList(new TodoItem(title,deadline,"no",owner,time));
+        ls.saveToFile("localitems.txt");
         return rawResponse;
     }
 
@@ -76,7 +79,7 @@ public class HTTPUtils {
             i.printStackTrace();
         }
         String time = (java.util.Calendar.getInstance().getTime()).toString();
-        return new TodoItem("dev", "0", "Item not Found", time);
+        return new TodoItem("dev", "0","0", "Item not Found", time);
     }
 
 
