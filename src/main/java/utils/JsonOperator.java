@@ -16,23 +16,23 @@ public class JsonOperator {
     }
 
     public static List<TodoItem> JsonArrayToTodoItemArrayList(JsonArray jsonArray){
-        List<TodoItem> jsonList = new ArrayList<>();
+        List<TodoItem> arrayList = new ArrayList<>();
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
             TodoItem todoItem = convertJsonObjectToTodoItem(jsonObject);
-            jsonList.add(todoItem);
+            arrayList.add(todoItem);
         }
-        return jsonList;
+        return arrayList;
     }
 
     public static TodoItem convertJsonObjectToTodoItem(JsonObject jsonObject){
         var owner = jsonObject.getAsJsonPrimitive("owner").getAsString();
         var deadline = jsonObject.getAsJsonPrimitive("deadline").getAsString();
-        var completed = jsonObject.getAsJsonPrimitive("completed").getAsString();
-        var todo = jsonObject.getAsJsonPrimitive("title").getAsString();
+        var completed = jsonObject.getAsJsonPrimitive("date completed").getAsString();
+        var title = jsonObject.getAsJsonPrimitive("title").getAsString();
         int id = jsonObject.getAsJsonPrimitive("id").getAsInt();
         var time = jsonObject.getAsJsonPrimitive("time created").getAsString();
-        TodoItem todoItem = new TodoItem(owner, deadline, completed, todo, id, time);
+        TodoItem todoItem = new TodoItem(owner, deadline, completed, title, id, time);
         return todoItem;
     }
 

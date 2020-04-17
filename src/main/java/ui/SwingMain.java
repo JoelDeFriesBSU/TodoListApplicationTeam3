@@ -51,8 +51,8 @@ public class SwingMain extends JFrame implements ActionListener {
         button2.setPreferredSize(new Dimension(30,50));
         var button2constraints = new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         button2.addActionListener(e -> {
-            LocalSave ls = new LocalSave();
-            boolean complete = ls.pushAllTodoItemsToCloud("localitems.txt");
+            LocalSave ls = new LocalSave("localitems.txt");
+            boolean complete = ls.pushAllTodoItemsToCloud();
             if(complete){
                 status.setText("Todo Items all successfully pushed!");
             }else{
@@ -80,13 +80,12 @@ public class SwingMain extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        HTTPUtils httpUtils = new HTTPUtils();
+        HTTPUtils httpUtils = new HTTPUtils("team3");
         var todoText = todo.getText();
-        var ownerText = owner.getText();
         var dueDateText = dueDate.getText();
 
         try {
-            String s = httpUtils.addTodoItem(todoText,ownerText,dueDateText);
+            String s = httpUtils.addTodoItem(todoText,dueDateText);
             status.setText("New todo item made and stored to cloud!\n"+s);
         } catch (IOException ex) {
             ex.printStackTrace();
