@@ -5,30 +5,30 @@ public class TodoItem {
 
     String owner;
     String deadline;
-    String completed;
+    String dateCompleted;
     String title;
     int id;
-    String time;
+    String dateAdded;
 
-    public TodoItem(String owner, String deadline, String completed, String title, int id, String time) {
+    public TodoItem(String owner, String deadline, String dateCompleted, String title, int id, String dateAdded) {
         this.owner = owner;
         this.deadline = deadline;
-        this.completed = completed;
+        this.dateCompleted = dateCompleted;
         this.title = title;
         this.id = id;
-        this.time = time;
+        this.dateAdded = dateAdded;
     }
 
-    public TodoItem(String owner, String deadline, String completed, String title, String time) {
+    public TodoItem(String owner, String deadline, String dateCompleted, String title, String dateAdded) {
         this.owner = owner;
         this.deadline = deadline;
-        this.completed = completed;
+        this.dateCompleted = dateCompleted;
         this.title = title;
-        this.time = time;
+        this.dateAdded = dateAdded;
     }
 
-    public String getTime() {
-        return time;
+    public String getDateAdded() {
+        return dateAdded;
     }
 
     public String getOwner() {
@@ -47,17 +47,17 @@ public class TodoItem {
         return deadline;
     }
 
-    public String getCompleted() {
-        return completed;
+    public String getDateCompleted() {
+        return dateCompleted;
     }
 
-    public void setCompleted(String completed) {
-        this.completed = completed;
+    public void setDateCompleted(String dateCompleted) {
+        this.dateCompleted = dateCompleted;
     }
 
     @Override
     public String toString() {
-        return owner + "\n" + deadline + "\n" + completed
-                + "\n" + title + "\n" + id + "\n" + time;
+        return owner + "\n" + deadline + "\n" + dateCompleted
+                + "\n" + title + "\n" + id + "\n" + dateAdded;
     }
 }

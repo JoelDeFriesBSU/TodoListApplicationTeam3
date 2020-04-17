@@ -8,7 +8,7 @@ class JsonOperatorTest {
 
     @BeforeEach
     void setup() {
-        httpUtils = new HTTPUtils();
+        httpUtils = new HTTPUtils("team3");
     }
 
 

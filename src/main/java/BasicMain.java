@@ -9,10 +9,9 @@ import java.io.IOException;
 public class BasicMain {
 
     public static void main(String[] args) {
-        HTTPUtils httpUtils = new HTTPUtils();
+        HTTPUtils httpUtils = new HTTPUtils("team3");
         try {
-            //httpUtils.addTodoItem("Test title for id.", "team3", "4/20");
-            System.out.println(httpUtils.deleteTodoItemByTitle("Get Item by Title Test", "team3"));
+            System.out.println(httpUtils.deleteAllItems());
         }catch(IOException e){
             e.printStackTrace();
         }
