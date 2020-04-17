@@ -10,6 +10,8 @@ public class LocalSave {
 
     public ArrayList<TodoItem> todoList;
 
+    public LocalSave(){}
+
     // saves all current to-do items onto a filename
     public boolean saveToFile(String fileName){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,false))){
@@ -22,6 +24,15 @@ public class LocalSave {
             return false;
         }
     }
+
+    public void addTodoItemToList(TodoItem todoItem){
+        todoList.add(todoItem);
+    }
+
+    public void removeTodoItemToList(TodoItem todoItem){
+        todoList.remove(todoItem);
+    }
+
     HTTPUtils HttpUtils;
     void setup() {
         HttpUtils = new HTTPUtils();
