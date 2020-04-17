@@ -1,6 +1,7 @@
 package ui;
 
 import utils.HTTPUtils;
+import utils.LocalSave;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +47,21 @@ public class SwingMain extends JFrame implements ActionListener {
         button.addActionListener(this);
         panel.add(button, buttonconstraints);
 
-        status = new JTextArea("Status: Working");
+        JButton button2 = new JButton("Sync Todo Items to Cloud");
+        button2.setPreferredSize(new Dimension(30,50));
+        var button2constraints = new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
+        button2.addActionListener(e -> {
+            LocalSave ls = new LocalSave();
+            boolean complete = ls.pushAllTodoItemsToCloud("localitems.txt");
+            if(complete){
+                status.setText("Todo Items all successfully pushed!");
+            }else{
+                status.setText("An IOException has occurred.\nCloud syncing not 100% successful.");
+            }
+        });
+        panel.add(button2, button2constraints);
+
+        status = new JTextArea("------Status: Working------");
         status.setPreferredSize(new Dimension(350,400));
         status.setEditable(false);
         var statusConstraints = new GridBagConstraints(1, 1, 1, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);

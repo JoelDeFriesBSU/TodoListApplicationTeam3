@@ -38,7 +38,7 @@ public class LocalSave {
         HttpUtils = new HTTPUtils();
     }
 
-    public void pushAllTodoItemsToCloud(String fileName){
+    public boolean pushAllTodoItemsToCloud(String fileName){
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))){
             String w;
             while( (w = br.readLine()) != null ){
@@ -50,8 +50,9 @@ public class LocalSave {
                 String date = br.readLine();
                 HttpUtils.addTodoItem(title,owner,deadline);
             }
+            return true;
         }catch(IOException e){
-
+            return false;
         }
     }
 }
