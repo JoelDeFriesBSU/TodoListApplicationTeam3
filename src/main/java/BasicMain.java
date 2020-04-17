@@ -11,7 +11,7 @@ public class BasicMain {
     public static void main(String[] args) {
         HTTPUtils httpUtils = new HTTPUtils("team3");
         try {
-            httpUtils.deleteAllItems();
+            System.out.println(httpUtils.deleteAllItems());
         }catch(IOException e){
             e.printStackTrace();
         }

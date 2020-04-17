@@ -15,7 +15,7 @@ public class LocalSave {
         this.todoList = new ArrayList<>();
     }
 
-    // saves all current to-do items onto a filename
+    // saves all current to-do items onto a file
     public boolean saveToFile(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,false))){
             for(TodoItem e : todoList){

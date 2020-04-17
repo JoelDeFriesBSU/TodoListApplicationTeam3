@@ -87,9 +87,14 @@ public class HTTPUtils {
         return new TodoItem("dev", "0","0", "Item not Found", time);
     }
 
-    public void setLocalSaveArrayList(List<TodoItem> arrayList){
+    public boolean setLocalSaveArrayList(List<TodoItem> arrayList){
         ArrayList<TodoItem> newList = (ArrayList<TodoItem>) arrayList;
         ls.setTodoList(newList);
+        if(!ls.getTodoList().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<TodoItem> getAllTodoItems() throws IOException {
@@ -104,10 +109,11 @@ public class HTTPUtils {
         try {
             HttpRequestFactory requestFactory2 = new NetHttpTransport().createRequestFactory();
             HttpRequest deleteRequest = requestFactory2.buildDeleteRequest(
-                    new GenericUrl("https://todoserver222.herokuapp.com/team3/todos"));
+                    new GenericUrl("https://todoserver222.herokuapp.com/team3/todos/"));
             String rawResponse = deleteRequest.execute().parseAsString();
             return true;
         } catch(IOException e){
+            e.printStackTrace();
             return false;
         }
 
