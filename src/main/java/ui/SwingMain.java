@@ -1,5 +1,12 @@
 package ui;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.util.Rotation;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import utils.HTTPUtils;
 
 import javax.swing.*;
@@ -159,12 +166,44 @@ public class SwingMain extends JFrame implements ActionListener {
         var statusAreaConstraints = new GridBagConstraints(6, 1, 1, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(status, statusAreaConstraints);
 
+        PieDataset dataset = createDataset();
+        JFreeChart chart = createChart(dataset,"Todo Pie Chart");
+        ChartPanel chartPanel = new ChartPanel(chart);
+        var chartPanelConstraints = new GridBagConstraints(4, 2, 2, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
+        panel.add(chartPanel,chartPanelConstraints);
 
         setPreferredSize(new Dimension(1080, 720));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setVisible(true);
     }
+
+    private PieDataset createDataset() {
+        DefaultPieDataset result = new DefaultPieDataset();
+        result.setValue("TBD", 33);
+        result.setValue("TBD2", 33);
+        result.setValue("TBD3", 34);
+        return result;
+
+    }
+
+    private JFreeChart createChart(PieDataset dataset, String title) {
+
+        JFreeChart chart = ChartFactory.createPieChart3D(
+                title,
+                dataset,
+                true,
+                true,
+                false
+        );
+
+        PiePlot3D plot = (PiePlot3D) chart.getPlot();
+        plot.setDirection(Rotation.CLOCKWISE);
+        return chart;
+
+    }
+
+
 
     public static void main(String[] args) {
         new SwingMain();
