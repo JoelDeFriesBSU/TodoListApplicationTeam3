@@ -15,9 +15,7 @@ import java.util.Map;
 public class HTTPUtils {
 
     HttpRequestFactory requestFactory;
-    String baseURL = "https://todoserver222.herokuapp.com/";
-    String ownerURLTag = "team3/";
-    String todosURL = baseURL + ownerURLTag + "todos/";
+    String todosURL = "https://todoserver-team3.herokuapp.com/todos/";
     String owner;
     LocalSave ls = new LocalSave("localitems.txt");
 
@@ -36,8 +34,8 @@ public class HTTPUtils {
         Map<String,Object> data = new LinkedHashMap<>();
         data.put("title",title);
         data.put("deadline",deadline);
-        data.put("date completed", "0");
-        data.put("owner",owner);
+        data.put("date completed", "");
+        data.put("owner", owner);
         String time = (java.util.Calendar.getInstance().getTime()).toString();
         data.put("time created",time);
         HttpContent content = new UrlEncodedContent(data);
@@ -56,7 +54,7 @@ public class HTTPUtils {
                 if (item.getTitle().equals(titleOfItemToDelete)) {
                     int id = item.getId();
                     HttpRequest deleteRequest = requestFactory.buildDeleteRequest(
-                            new GenericUrl(baseURL + "todos/" + id));
+                            new GenericUrl(todosURL + id));
                     String rawResponse = deleteRequest.execute().parseAsString();
                     ls.removeTodoItemToList(item);
                     ls.saveToFile();
@@ -109,7 +107,7 @@ public class HTTPUtils {
         try {
             HttpRequestFactory requestFactory2 = new NetHttpTransport().createRequestFactory();
             HttpRequest deleteRequest = requestFactory2.buildDeleteRequest(
-                    new GenericUrl("https://todoserver222.herokuapp.com/team3/todos/"));
+                    new GenericUrl("https://todoserver-team3.herokuapp.com/todos/"));
             String rawResponse = deleteRequest.execute().parseAsString();
             return true;
         } catch(IOException e){

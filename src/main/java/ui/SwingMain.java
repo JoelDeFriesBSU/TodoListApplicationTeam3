@@ -49,26 +49,26 @@ public class SwingMain extends JFrame implements ActionListener {
         var currentOwnerJLabelConstraints = new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(currentOwnerLabel, currentOwnerJLabelConstraints);
 
-        owner = new JTextField();
+        owner = new JTextField("team3");
         var ownerTextFieldConstraints = new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(owner, ownerTextFieldConstraints);
 
-
+        //add
         JLabel addLabel = new JLabel("Add Todo Item");
         var addLabelConstraints = new GridBagConstraints(0, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(addLabel, addLabelConstraints);
 
-        String addTodoFieldDefaultText = "Enter Title of Todo to Add: ";
+        String addTodoFieldDefaultText = "Todo item.";
         addTodoField = new JTextField(addTodoFieldDefaultText);
         var todoFieldConstraints = new GridBagConstraints(0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(addTodoField,todoFieldConstraints);
 
-        String addDueDateFieldDefaultText = "Enter Due Date: ";
+        String addDueDateFieldDefaultText = "4/20";
         addDueDateField = new JTextField(addDueDateFieldDefaultText);
         var dueDateFieldConstraints = new GridBagConstraints(0, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(addDueDateField,dueDateFieldConstraints);
 
-
+        //complete
         JLabel completedLabel = new JLabel("Enter Title of Todo to Complete: ");
         var completedLabelConstraints = new GridBagConstraints(1, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(completedLabel, completedLabelConstraints);
@@ -78,7 +78,7 @@ public class SwingMain extends JFrame implements ActionListener {
         var completeTodoFieldConstraints = new GridBagConstraints(1, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(completeTodoField, completeTodoFieldConstraints);
 
-
+        //delete
         JLabel deleteLabel = new JLabel("Delete Todo Item");
         var deleteLabelConstraints = new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(deleteLabel, deleteLabelConstraints);
@@ -103,10 +103,10 @@ public class SwingMain extends JFrame implements ActionListener {
         TodoItemTitleButton.setPreferredSize(new Dimension(30,50));
         var TodoItemTitleButtonConstraints = new GridBagConstraints(0, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         TodoItemTitleButton.addActionListener(e ->{
-            var todoText = addTodoField.getText();
-            var dueDateText = addDueDateField.getText();
+            String todoTextAdd = addTodoField.getText();
+            String dueDateText = addDueDateField.getText();
             try {
-                String s = httpUtils.addTodoItem(todoText,dueDateText);
+                String s = httpUtils.addTodoItem(todoTextAdd, dueDateText);
                 status.setText("New todo item made and stored to cloud!\n"+s);
                 addTodoField.setText(addTodoFieldDefaultText);
                 addDueDateField.setText(addDueDateFieldDefaultText);
@@ -121,7 +121,7 @@ public class SwingMain extends JFrame implements ActionListener {
         completeTodoItemButton.setPreferredSize(new Dimension(30,50));
         var completeTodoItemTitleButtonConstraints = new GridBagConstraints(1, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         completeTodoItemButton.addActionListener(e -> {
-            //Need Functionality
+            //TODO Needs Functionality
             completeTodoField.setText(completeTodoFieldDefaultText);
         });
         panel.add(completeTodoItemButton, completeTodoItemTitleButtonConstraints);
@@ -130,11 +130,13 @@ public class SwingMain extends JFrame implements ActionListener {
         deleteTodoItemButton.setPreferredSize(new Dimension(30,50));
         var deleteTodoItemTitleButtonConstraints = new GridBagConstraints(2, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         deleteTodoItemButton.addActionListener(e -> {
-            String todoText = deleteTodoField.getText();
+            String todoTextDelete = deleteTodoField.getText();
             try {
-                if(httpUtils.deleteTodoItemByTitle(todoText)){
-                    status.setText(todoText + " was successfully deleted from the cloud.");
+                if(httpUtils.deleteTodoItemByTitle(todoTextDelete)){
+                    status.setText(todoTextDelete + " was successfully deleted from the cloud.");
                     deleteTodoField.setText(deleteTodoFieldDefaultText);
+                } else{
+                    status.setText(todoTextDelete + " was not deleted from the cloud.");
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

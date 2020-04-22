@@ -19,8 +19,13 @@ public class JsonOperator {
         List<TodoItem> arrayList = new ArrayList<>();
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-            TodoItem todoItem = convertJsonObjectToTodoItem(jsonObject);
-            arrayList.add(todoItem);
+            //if statement to keep from deleting the first 3 objects in the list, which are Hergin's
+            int testInt = jsonObject.getAsJsonPrimitive("id").getAsInt();
+            if(testInt < 4){
+            } else {
+                TodoItem todoItem = convertJsonObjectToTodoItem(jsonObject);
+                arrayList.add(todoItem);
+            }
         }
         return arrayList;
     }
