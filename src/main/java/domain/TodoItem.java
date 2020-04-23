@@ -1,38 +1,39 @@
 package domain;
 
+import DateTask.DueDateCheck;
+import utils.LocalDateTimeOperator;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class TodoItem {
 
 
     String owner;
-    String deadline;
-    String dateCompleted;
+    LocalDateTime dueDate;
+    String completionDate;
     String title;
     int id;
     String dateAdded;
+    LocalDateTimeOperator ldt = new LocalDateTimeOperator();
+    DueDateCheck dateChecker;
 
-    public TodoItem(String owner, String deadline, String dateCompleted, String title, int id, String dateAdded) {
+    public TodoItem(String owner, String dueDate, String completionDate, String title, int id, String dateAdded) {
         this.owner = owner;
-        this.deadline = deadline;
-        this.dateCompleted = dateCompleted;
+        this.dueDate = ldt.stringToLocalDate(dueDate);
+        this.completionDate = completionDate;
         this.title = title;
         this.id = id;
         this.dateAdded = dateAdded;
-    }
-
-    public TodoItem(String owner, String deadline, String dateCompleted, String title, String dateAdded) {
-        this.owner = owner;
-        this.deadline = deadline;
-        this.dateCompleted = dateCompleted;
-        this.title = title;
-        this.dateAdded = dateAdded;
-    }
-
-    public String getDateAdded() {
-        return dateAdded;
+        this.dateChecker = new DueDateCheck(this.dueDate);
     }
 
     public String getOwner() {
         return owner;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dateChecker.getDueDate();
     }
 
     public String getTitle() {
@@ -43,21 +44,21 @@ public class TodoItem {
         return id;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getDateAdded() {
+        return dateAdded;
     }
 
-    public String getDateCompleted() {
-        return dateCompleted;
+    public String getCompletionDate() {
+        return completionDate;
     }
 
-    public void setDateCompleted(String dateCompleted) {
-        this.dateCompleted = dateCompleted;
+    public void setCompletionDate() {
+        this.completionDate = ldt.localDateToString(dateChecker.CompleteTodoItem());
     }
 
     @Override
     public String toString() {
-        return owner + "\n" + deadline + "\n" + dateCompleted
+        return owner + "\n" + dueDate.format(DateTimeFormatter.ofPattern(ldt.getDateTimeFormat())) + "\n" + completionDate
                 + "\n" + title + "\n" + id + "\n" + dateAdded;
     }
 }

@@ -8,7 +8,7 @@ public class BasicMain {
         HTTPUtils httpUtils = new HTTPUtils("team3");
         try {
             //System.out.println(httpUtils.deleteAllItems());
-            System.out.println(httpUtils.addTodoItem("TodoItem", "4/20"));
+            System.out.println(httpUtils.addTodoItem("TodoItem", "Mon, Apr 20, 2020 -- 12:30 PM"));
             System.out.println(httpUtils.deleteTodoItemByTitle("TodoItem"));
             //System.out.println(httpUtils.deleteTodoItemByTitle("TodoItem"));
 

@@ -3,6 +3,7 @@ package utils;
 import com.google.gson.*;
 import domain.TodoItem;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,13 @@ public class JsonOperator {
         JsonElement stringToJsonElement = jsonParser.parse(stringToConvertToJson);
         JsonArray stringToJsonArray = stringToJsonElement.getAsJsonArray();
         return stringToJsonArray;
+    }
+
+    public static JsonObject stringToJsonObject(String stringToConvertToJson){
+        JsonParser jsonParser = new JsonParser();
+        JsonElement stringToJsonElement = jsonParser.parse(stringToConvertToJson);
+        JsonObject stringToJsonObject = stringToJsonElement.getAsJsonObject();
+        return stringToJsonObject;
     }
 
     public static List<TodoItem> JsonArrayToTodoItemArrayList(JsonArray jsonArray){
