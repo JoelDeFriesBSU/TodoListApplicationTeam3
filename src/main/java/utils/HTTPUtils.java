@@ -3,10 +3,12 @@ package utils;
 import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import domain.TodoItem;
 import exceptions.ItemNotFoundException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,15 +17,15 @@ import java.util.Map;
 public class HTTPUtils {
 
     HttpRequestFactory requestFactory;
-    String baseURL = "https://todoserver222.herokuapp.com/";
-    String ownerURLTag = "team3/";
-    String todosURL = baseURL + ownerURLTag + "todos/";
+    String todosURL = "https://todoserver-team3.herokuapp.com/todos/";
     String owner;
     LocalSave ls = new LocalSave("localitems.txt");
+    LocalDateTimeOperator ldt;
 
     public HTTPUtils(String aOwner) {
         this.owner = aOwner;
-        requestFactory = new NetHttpTransport().createRequestFactory();
+        this.requestFactory = new NetHttpTransport().createRequestFactory();
+        this.ldt = new LocalDateTimeOperator();
     }
 
     public String getJsonStringFromInternet() throws IOException {
@@ -36,14 +38,16 @@ public class HTTPUtils {
         Map<String,Object> data = new LinkedHashMap<>();
         data.put("title",title);
         data.put("deadline",deadline);
-        data.put("date completed", "0");
-        data.put("owner",owner);
-        String time = (java.util.Calendar.getInstance().getTime()).toString();
+        data.put("date completed", "");
+        data.put("owner", owner);
+        String time = ldt.localDateToString(LocalDateTime.now());
         data.put("time created",time);
         HttpContent content = new UrlEncodedContent(data);
         HttpRequest postRequest = requestFactory.buildPostRequest(new GenericUrl(todosURL),content);
         String rawResponse = postRequest.execute().parseAsString();
-        ls.addTodoItemToList(new TodoItem(title,deadline,"",owner,time));
+        JsonObject jsonTodoItem = JsonOperator.stringToJsonObject(rawResponse);
+        TodoItem todoItem = JsonOperator.convertJsonObjectToTodoItem(jsonTodoItem);
+        ls.addTodoItemToList(todoItem);
         ls.saveToFile();
         return rawResponse;
     }
@@ -56,7 +60,7 @@ public class HTTPUtils {
                 if (item.getTitle().equals(titleOfItemToDelete)) {
                     int id = item.getId();
                     HttpRequest deleteRequest = requestFactory.buildDeleteRequest(
-                            new GenericUrl(baseURL + "todos/" + id));
+                            new GenericUrl(todosURL + id));
                     String rawResponse = deleteRequest.execute().parseAsString();
                     ls.removeTodoItemToList(item);
                     ls.saveToFile();
@@ -84,7 +88,7 @@ public class HTTPUtils {
             i.printStackTrace();
         }
         String time = (java.util.Calendar.getInstance().getTime()).toString();
-        return new TodoItem("dev", "0","0", "Item not Found", time);
+        return new TodoItem("dev", "0","0", "Item not Found", 0, time);
     }
 
     public boolean setLocalSaveArrayList(List<TodoItem> arrayList){
@@ -107,15 +111,18 @@ public class HTTPUtils {
 
     public static boolean deleteAllItems() throws IOException {
         try {
-            HttpRequestFactory requestFactory2 = new NetHttpTransport().createRequestFactory();
-            HttpRequest deleteRequest = requestFactory2.buildDeleteRequest(
-                    new GenericUrl("https://todoserver222.herokuapp.com/team3/todos/"));
-            String rawResponse = deleteRequest.execute().parseAsString();
+
+            for (int i = 4; i < 14; i++) {
+                HttpRequestFactory requestFactory2 = new NetHttpTransport().createRequestFactory();
+                HttpRequest deleteRequest = requestFactory2.buildDeleteRequest(
+                        new GenericUrl("https://todoserver-team3.herokuapp.com/todos/" + i));
+                String rawResponse = deleteRequest.execute().parseAsString();
+
+            }
             return true;
         } catch(IOException e){
             e.printStackTrace();
             return false;
         }
-
     }
 }
