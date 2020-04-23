@@ -34,6 +34,10 @@ public class SwingMain extends JFrame implements ActionListener {
 
     HTTPUtils httpUtils;
 
+    int completed;
+    int overdue;
+    int pending;
+
     public SwingMain() {
         super("Todo Manager");
         JPanel panel = new JPanel(new GridLayout(8,8));
@@ -122,6 +126,7 @@ public class SwingMain extends JFrame implements ActionListener {
                 status.setText("New todo item made and stored to cloud!\n"+s);
                 addTodoField.setText(addTodoFieldDefaultText);
                 addDueDateField.setText(addDueDateFieldDefaultText);
+                pending += 1;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 status.setText("Todo item was not made due to error.");
@@ -134,6 +139,8 @@ public class SwingMain extends JFrame implements ActionListener {
         var completeTodoItemTitleButtonConstraints = new GridBagConstraints(1, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         completeTodoItemButton.addActionListener(e -> {
             //TODO Needs Functionality
+            pending -= 1;
+            completed += 1;
             completeTodoField.setText(completeTodoFieldDefaultText);
         });
         panel.add(completeTodoItemButton, completeTodoItemTitleButtonConstraints);
@@ -147,6 +154,7 @@ public class SwingMain extends JFrame implements ActionListener {
                 if(httpUtils.deleteTodoItemByTitle(todoTextDelete)){
                     status.setText(todoTextDelete + " was successfully deleted from the cloud.");
                     deleteTodoField.setText(deleteTodoFieldDefaultText);
+                    pending -= 1;
                 } else{
                     status.setText(todoTextDelete + " was not deleted from the cloud.");
                 }
@@ -200,9 +208,9 @@ public class SwingMain extends JFrame implements ActionListener {
 
     private PieDataset createDataset() {
         DefaultPieDataset result = new DefaultPieDataset();
-        result.setValue("TBD", 33);
-        result.setValue("TBD2", 33);
-        result.setValue("TBD3", 34);
+        result.setValue("COMPLETED", completed);
+        result.setValue("OVERDUE", overdue);
+        result.setValue("PENDING", pending);
         return result;
 
     }
