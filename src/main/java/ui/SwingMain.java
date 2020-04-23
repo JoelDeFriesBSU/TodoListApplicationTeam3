@@ -28,6 +28,8 @@ public class SwingMain extends JFrame implements ActionListener {
 
     JTextField deleteTodoField;
 
+    JTextField snoozeField;
+
     JTextArea status;
 
     HTTPUtils httpUtils;
@@ -63,7 +65,7 @@ public class SwingMain extends JFrame implements ActionListener {
         var todoFieldConstraints = new GridBagConstraints(0, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(addTodoField,todoFieldConstraints);
 
-        String addDueDateFieldDefaultText = "4/20";
+        String addDueDateFieldDefaultText = "Enter Due Date";
         addDueDateField = new JTextField(addDueDateFieldDefaultText);
         var dueDateFieldConstraints = new GridBagConstraints(0, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(addDueDateField,dueDateFieldConstraints);
@@ -87,6 +89,16 @@ public class SwingMain extends JFrame implements ActionListener {
         deleteTodoField = new JTextField(deleteTodoFieldDefaultText);
         var deleteTodoFieldConstraints = new GridBagConstraints(2, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(deleteTodoField, deleteTodoFieldConstraints);
+
+        //snooze
+        JLabel snoozeLabel = new JLabel("Snooze Todo Item");
+        var snoozeLabelConstraints = new GridBagConstraints(3, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
+        panel.add(snoozeLabel, snoozeLabelConstraints);
+
+        String snoozeTodoFieldDefaultText = "Enter ID number of Item";
+        snoozeField = new JTextField(snoozeTodoFieldDefaultText);
+        var snoozeTodoFieldConstraints = new GridBagConstraints(3, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
+        panel.add(snoozeField, snoozeTodoFieldConstraints);
 
 
         JButton ownerButton = new JButton("Set Owner");
@@ -144,6 +156,12 @@ public class SwingMain extends JFrame implements ActionListener {
             }
         });
         panel.add(deleteTodoItemButton, deleteTodoItemTitleButtonConstraints);
+
+        JButton snoozeTodoItemButton = new JButton("Snooze a ToDo item");
+        snoozeTodoItemButton.setPreferredSize(new Dimension(30,50));
+        var snoozeTodoItemTitleButtonConstraints = new GridBagConstraints(3, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
+        panel.add(snoozeTodoItemButton, snoozeTodoItemTitleButtonConstraints);
+
 
         JButton syncToCloudButton = new JButton("Sync Todo Items to Local Storage.");
         var SyncItemButtonConstraints = new GridBagConstraints(4, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
