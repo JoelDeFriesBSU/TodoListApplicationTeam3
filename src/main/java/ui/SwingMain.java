@@ -23,6 +23,7 @@ public class SwingMain extends JFrame implements ActionListener {
 
     JTextField addTodoField;
     JTextField addDueDateField;
+    JTextField dueDateExample;
 
     JTextField completeTodoField;
 
@@ -73,6 +74,10 @@ public class SwingMain extends JFrame implements ActionListener {
         addDueDateField = new JTextField(addDueDateFieldDefaultText);
         var dueDateFieldConstraints = new GridBagConstraints(0, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(addDueDateField,dueDateFieldConstraints);
+
+        JLabel dueDateExample = new JLabel("Date Format Example: Tue, Apr 21, 2020 -- 12:00 PM");
+        var dueDateExampleConstraints = new GridBagConstraints(1, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
+        panel.add(dueDateExample,dueDateExampleConstraints);
 
         //complete
         JLabel completedLabel = new JLabel("Enter Title of Todo to Complete: ");
@@ -200,7 +205,7 @@ public class SwingMain extends JFrame implements ActionListener {
         var chartPanelConstraints = new GridBagConstraints(4, 2, 2, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
         panel.add(chartPanel,chartPanelConstraints);
 
-        setPreferredSize(new Dimension(1080, 720));
+        setPreferredSize(new Dimension(1200, 720));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setVisible(true);
