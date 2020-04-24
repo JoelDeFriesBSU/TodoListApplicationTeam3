@@ -1,5 +1,6 @@
 package ui;
 
+import DateTask.DueDateCheck;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -8,12 +9,14 @@ import org.jfree.chart.util.Rotation;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import utils.HTTPUtils;
+import utils.LocalDateTimeOperator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class SwingMain extends JFrame implements ActionListener {
 
@@ -30,6 +33,7 @@ public class SwingMain extends JFrame implements ActionListener {
     JTextField deleteTodoField;
 
     JTextField snoozeField;
+    JTextField snoozeInfoField;
 
     JTextArea status;
 
@@ -38,6 +42,7 @@ public class SwingMain extends JFrame implements ActionListener {
     int completed;
     int overdue;
     int pending;
+
 
     public SwingMain() {
         super("Todo Manager");
@@ -109,6 +114,14 @@ public class SwingMain extends JFrame implements ActionListener {
         var snoozeTodoFieldConstraints = new GridBagConstraints(3, 3, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
         panel.add(snoozeField, snoozeTodoFieldConstraints);
 
+        String snoozeTaskFieldDefaultText = "Enter snooze option 1,2,3,4";
+        snoozeInfoField = new JTextField(snoozeTaskFieldDefaultText);
+        var snoozeTaskFieldConstraints = new GridBagConstraints(3, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
+        panel.add(snoozeInfoField, snoozeTaskFieldConstraints);
+
+        JLabel snoozeInfoExample = new JLabel("Option 1 add one hour, Option 2 add four hour, Option 3 add a day, Option 4 add a week");
+        var snoozeInfoConstraints = new GridBagConstraints(4, 4, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
+        panel.add(snoozeInfoExample,snoozeInfoConstraints);
 
         JButton ownerButton = new JButton("Set Owner");
         var ownerButtonConstraints = new GridBagConstraints(2, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20, 20, 20, 20), 0, 0);
@@ -173,6 +186,15 @@ public class SwingMain extends JFrame implements ActionListener {
         JButton snoozeTodoItemButton = new JButton("Snooze a ToDo item");
         snoozeTodoItemButton.setPreferredSize(new Dimension(30,50));
         var snoozeTodoItemTitleButtonConstraints = new GridBagConstraints(3, 5, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0);
+      snoozeTodoItemButton.addActionListener(e -> {
+          String idTest = snoozeField.getText();
+          String optionTest = snoozeInfoField.getText();
+          int id = Integer.parseInt(idTest);
+          int option = Integer.parseInt(optionTest);
+          DueDateCheck snooze = new DueDateCheck();
+          snooze.Snooze(option,id);
+      });
+
         panel.add(snoozeTodoItemButton, snoozeTodoItemTitleButtonConstraints);
 
 
